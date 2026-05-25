@@ -1,0 +1,237 @@
+@import "tailwindcss";
+
+@theme {
+  /* Base palette — navy, white, black only. */
+  --color-bg: #ffffff;
+  --color-fg: #0a2540;
+  --color-fg-muted: #4a5b6e;
+  --color-fg-subtle: #6b7a8c;
+  --color-ink: #000000;
+  --color-border: #e5e7eb;
+  --color-surface: #f8fafc;
+
+  /* Scoped accents — only for problem (red) and solution (green) contexts. */
+  --color-problem-bg: #fee2e2;
+  --color-problem-fg: #b91c1c;
+  --color-problem-border: #fca5a5;
+  --color-solution-bg: #eff6ff;
+  --color-solution-fg: #1e40af;
+  --color-solution-border: #bfdbfe;
+
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background: var(--color-bg);
+    color: var(--color-fg);
+  }
+  body {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    line-height: 1.6;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--color-fg);
+  }
+  ::selection {
+    background: rgba(10, 37, 64, 0.15);
+    color: var(--color-fg);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-fg);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  a {
+    transition: color 200ms ease-in-out;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* Interactive card — hover lift + click press */
+  .interactive {
+    transition:
+      transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 200ms ease-in-out;
+    will-change: transform;
+  }
+  .interactive:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 32px -12px rgba(10, 37, 64, 0.18);
+    border-color: rgba(10, 37, 64, 0.18);
+  }
+  .interactive:active {
+    transform: translateY(-1px) scale(0.985);
+    box-shadow: 0 8px 18px -10px rgba(10, 37, 64, 0.16);
+    transition-duration: 110ms;
+  }
+
+  /* Problem-section card — default is the regular site palette; turns
+     red on hover (and on keyboard focus for accessibility). */
+  .problem-card {
+    background-color: #ffffff;
+    border-color: var(--color-border);
+    color: var(--color-fg);
+    transition:
+      background-color 200ms ease-in-out,
+      border-color 200ms ease-in-out,
+      color 200ms ease-in-out;
+  }
+  .problem-card:hover,
+  .problem-card:has(a:focus-visible) {
+    background-color: var(--color-problem-bg);
+    border-color: var(--color-problem-border);
+  }
+  .problem-card .problem-value,
+  .problem-card .problem-icon {
+    color: var(--color-fg);
+    transition: color 200ms ease-in-out;
+  }
+  .problem-card .problem-divider {
+    border-top-color: var(--color-border);
+    transition: border-color 200ms ease-in-out;
+  }
+  .problem-card:hover .problem-value,
+  .problem-card:has(a:focus-visible) .problem-value,
+  .problem-card:hover .problem-icon,
+  .problem-card:has(a:focus-visible) .problem-icon {
+    color: var(--color-problem-fg);
+  }
+  .problem-card:hover .problem-divider,
+  .problem-card:has(a:focus-visible) .problem-divider {
+    border-top-color: var(--color-problem-border);
+  }
+
+  /* Approach-section card — default site palette; turns green on hover
+     (and on keyboard focus) to signify the solution. */
+  .solution-card {
+    background-color: #ffffff;
+    border-color: var(--color-border);
+    color: var(--color-fg);
+    transition:
+      background-color 200ms ease-in-out,
+      border-color 200ms ease-in-out,
+      color 200ms ease-in-out;
+  }
+  .solution-card:hover,
+  .solution-card:focus-within {
+    background-color: var(--color-solution-bg);
+    border-color: var(--color-solution-border);
+  }
+  .solution-card .solution-icon,
+  .solution-card .solution-title {
+    color: var(--color-fg);
+    transition: color 200ms ease-in-out;
+  }
+  .solution-card:hover .solution-icon,
+  .solution-card:focus-within .solution-icon,
+  .solution-card:hover .solution-title,
+  .solution-card:focus-within .solution-title {
+    color: var(--color-solution-fg);
+  }
+
+  /* Problem-section trail — slow horizontal marquee of the stat cards.
+     Pauses on hover or keyboard focus so users can click through. Falls
+     back to a manually-scrollable row under prefers-reduced-motion. */
+  @keyframes problem-trail {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .problem-trail-mask {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: visible;
+    scrollbar-width: none;
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      black 6%,
+      black 94%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      black 6%,
+      black 94%,
+      transparent 100%
+    );
+  }
+  .problem-trail-mask::-webkit-scrollbar {
+    display: none;
+  }
+
+  .problem-trail {
+    display: flex;
+    gap: 1.25rem;
+    width: max-content;
+    animation: problem-trail 120s linear infinite;
+    padding: 0.5rem 0;
+  }
+  .problem-trail:hover,
+  .problem-trail:focus-within {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .problem-trail {
+      animation: none;
+    }
+  }
+
+  /* Button press feedback */
+  .press {
+    transition:
+      background-color 200ms ease-in-out,
+      color 200ms ease-in-out,
+      transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .press:active {
+    transform: scale(0.97);
+  }
+
+  /* Skip link — visible only when focused */
+  .skip-link {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 100;
+    transform: translateY(-200%);
+    background: var(--color-fg);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: transform 200ms ease-in-out;
+  }
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+}
