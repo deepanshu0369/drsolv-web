@@ -30,6 +30,25 @@ export default function Footer() {
         </div>
 
         <div className="mt-14 border-t border-border pt-8">
+          <p className="mb-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-fg-subtle">
+            Disclaimer
+          </p>
+          <p className="text-xs leading-relaxed text-fg-muted">
+            The data presented on this website is sourced from official Government of India
+            publications and databases. All statistics and figures are subject to periodic
+            revision by the respective implementing agencies and government authorities, and
+            may differ from previously published values.
+          </p>
+          <p className="mt-3 text-xs leading-relaxed text-fg-muted">
+            While we strive to maintain accurate and current information, we make no
+            representations or warranties — express or implied — regarding the completeness,
+            accuracy, or timeliness of any data displayed. Users are encouraged to consult
+            the relevant official Government of India portals for authoritative and
+            up-to-date information.
+          </p>
+        </div>
+
+        <div className="mt-8 border-t border-border pt-8">
           <p className="text-xs text-fg-muted">
             © 2025–{new Date().getFullYear()} DRSOLV Healthcare Pvt Ltd.
             Incorporated November 2025. CIN: U86909UP2025PTC235770.
