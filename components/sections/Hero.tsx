@@ -1,16 +1,21 @@
 import Link from "next/link";
-import Script from "next/script";
+import Image from "next/image";
+import { Play } from "lucide-react";
 import Reveal from "../ui/Reveal";
 
 type SurveyVideo = {
   title: string;
   instagramUrl: string;
+  // Optional self-hosted poster in /public (e.g. "/reels/accident.jpg").
+  // When set, it renders as the card thumbnail; otherwise a branded poster
+  // is shown. Clicking the card always opens the Instagram reel.
+  poster?: string;
 };
 
 const surveys: SurveyVideo[] = [
-  { title: "If you ever had an accident?", instagramUrl: "https://www.instagram.com/reel/DYuT017p-cu/" },
-  { title: "What is your biggest fear as a delivery agent?", instagramUrl: "https://www.instagram.com/reel/DY1xItVJo_P/" },
-  { title: "People are suffering with no one to help!", instagramUrl: "https://www.instagram.com/reel/DYSBVadpU6O/" },
+  { title: "If you ever had an accident?", instagramUrl: "https://www.instagram.com/reel/DYuT017p-cu/", poster: "/reels/accident.jpg" },
+  { title: "What is your biggest fear as a delivery agent?", instagramUrl: "https://www.instagram.com/reel/DY1xItVJo_P/", poster: "/reels/fear.jpg" },
+  { title: "People are suffering with no one to help!", instagramUrl: "https://www.instagram.com/reel/DYSBVadpU6O/", poster: "/reels/suffering.jpg" },
 ];
 
 export default function Hero() {
@@ -48,7 +53,7 @@ export default function Hero() {
           </Reveal>
         </div>
 
-        {/* Voices from the people — field survey videos hosted on YouTube */}
+        {/* Voices from the people — field survey reels on Instagram */}
         <Reveal delay={0.24} className="mt-20 md:mt-28">
           <div className="max-w-3xl">
             <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-fg/70">
@@ -74,24 +79,68 @@ export default function Hero() {
           </div>
         </Reveal>
       </div>
-      <Script src="//www.instagram.com/embed.js" strategy="lazyOnload" />
     </section>
   );
 }
 
 function VideoCard({ video }: { video: SurveyVideo }) {
   return (
-    <figure className="solution-card interactive group block overflow-hidden rounded-lg border">
-      <blockquote
-        className="instagram-media"
-        data-instgrm-permalink={`${video.instagramUrl}?utm_source=ig_embed&utm_campaign=loading`}
-        data-instgrm-version="14"
+    <a
+      href={video.instagramUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Watch “${video.title}” on Instagram (opens in a new tab)`}
+      className="solution-card interactive group block overflow-hidden rounded-lg border"
+    >
+      <div
+        className="relative overflow-hidden bg-surface"
+        style={{ aspectRatio: "16 / 9" }}
       >
-        <a href={video.instagramUrl}>View this reel on Instagram</a>
-      </blockquote>
-      <figcaption className="flex items-center justify-between gap-3 border-t border-border px-5 py-3">
+        {video.poster ? (
+          <>
+            <Image
+              src={video.poster}
+              alt={video.title}
+              fill
+              sizes="(max-width: 768px) 92vw, 360px"
+              className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]"
+            />
+            <div className="absolute inset-0 bg-fg/25" />
+          </>
+        ) : (
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(120% 120% at 30% 20%, #16324f 0%, #0a2540 72%)",
+            }}
+          >
+            <span className="absolute left-4 top-3 text-[10px] font-medium uppercase tracking-[0.18em] text-white/55">
+              Field survey
+            </span>
+          </div>
+        )}
+
+        {/* Play affordance */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-fg shadow-md ring-1 ring-black/5 transition-transform duration-200 ease-out group-hover:scale-105">
+            <Play
+              size={16}
+              strokeWidth={2.5}
+              fill="currentColor"
+              aria-hidden
+              className="ml-0.5"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between gap-3 border-t border-border px-5 py-3">
         <span className="text-sm font-medium text-fg">{video.title}</span>
-      </figcaption>
-    </figure>
+        <span className="shrink-0 text-[11px] font-medium text-fg-subtle">
+          Instagram ↗
+        </span>
+      </div>
+    </a>
   );
 }
