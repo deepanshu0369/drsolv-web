@@ -7,10 +7,10 @@ type Member = {
   name: string;
   role: string;
   bio: string[];
-  photo: string;
+  photo?: string;
 };
 
-const team: Member[] = [
+const founders: Member[] = [
   {
     name: "Dr. Rashi Gupta",
     role: "Co-Founder and CEO",
@@ -31,6 +31,9 @@ const team: Member[] = [
     ],
     photo: "/team-deepanshu.png",
   },
+];
+
+const advisors: Member[] = [
   {
     name: "Dheeraj Khetwal",
     role: "Advisor",
@@ -39,7 +42,6 @@ const team: Member[] = [
       "HealthTech experience.",
       "Long-term Roadmap.",
     ],
-    photo: "/team-dheeraj-khetwal.jpeg",
   },
   {
     name: "Suraj Chand Rajwar",
@@ -49,31 +51,26 @@ const team: Member[] = [
       "Public Health Policy.",
       "Government Ecosystem.",
     ],
-    photo: "/team-suraj-rajwar.png",
   },
   {
     name: "Dr. Nikita Deopa",
     role: "Clinical Advisor",
     bio: ["MD Psychiatrist."],
-    photo: "/team-nikita-deopa.jpeg",
   },
   {
     name: "Dr. Chirag Saini",
     role: "Clinical Advisor",
     bio: ["MD Dermatologist."],
-    photo: "/team-chirag-saini.jpeg",
   },
   {
     name: "Dr. Anjali Sagar",
     role: "Clinical Advisor",
     bio: ["MD Microbiologist."],
-    photo: "/team-anjali-sagar.jpeg",
   },
   {
     name: "Dr. Rishi Sharma",
     role: "Clinical Advisor",
     bio: ["MD Community Medicine."],
-    photo: "/team-rishi-sharma.jpeg",
   },
 ];
 
@@ -94,8 +91,16 @@ export default function Team() {
         </p>
       </Reveal>
 
-      <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {team.map((m, i) => (
+      <div className="mx-auto mt-14 grid max-w-3xl gap-5 sm:grid-cols-2">
+        {founders.map((m, i) => (
+          <Reveal key={m.name} delay={0.04 * (i + 1)}>
+            <MemberCard member={m} />
+          </Reveal>
+        ))}
+      </div>
+
+      <div className="mt-5 grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {advisors.map((m, i) => (
           <Reveal key={m.name} delay={0.04 * (i + 1)}>
             <MemberCard member={m} />
           </Reveal>
@@ -108,15 +113,17 @@ export default function Team() {
 function MemberCard({ member }: { member: Member }) {
   return (
     <article className="solution-card interactive flex h-full flex-col gap-4 rounded-lg border border-border bg-white p-6">
-      <div className="relative aspect-square w-full overflow-hidden rounded-md bg-surface">
-        <Image
-          src={member.photo}
-          alt={`${member.name}, ${member.role}`}
-          fill
-          sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 260px"
-          className="object-cover object-center"
-        />
-      </div>
+      {member.photo ? (
+        <div className="relative aspect-square w-full overflow-hidden rounded-md bg-surface">
+          <Image
+            src={member.photo}
+            alt={`${member.name}, ${member.role}`}
+            fill
+            sizes="(max-width: 640px) 90vw, 380px"
+            className="object-cover object-center"
+          />
+        </div>
+      ) : null}
       <div>
         <h3 className="font-display text-base font-semibold tracking-tight text-fg">
           {member.name}
