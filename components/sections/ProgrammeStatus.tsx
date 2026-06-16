@@ -15,8 +15,13 @@ type Update = {
 const updates: Update[] = [
   {
     label: "Incubation",
-    title: "STARTinUP",
+    title: "STARTINUP",
     body: "Selected under STARTinUP, Uttar Pradesh's official startup programme. Incubated at GICRISE, Galgotias University.",
+  },
+  {
+    label: "Incubator",
+    title: "Incubated at GIC-RISE",
+    body: "Part of GIC-RISE, the incubation centre at Galgotias University.",
   },
   {
     label: "Recognition",
@@ -42,7 +47,7 @@ export default function ProgrammeStatus() {
         </h2>
       </Reveal>
 
-      <div className="mt-12 grid gap-5 md:grid-cols-3">
+      <div className="mt-12 grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {updates.map((u, i) => (
           <Reveal key={u.label} delay={0.05 * (i + 1)}>
             <article className="solution-card interactive flex h-full flex-col gap-3 rounded-lg border p-7">
