@@ -6,6 +6,7 @@ import HowItWorks from "@/components/sections/HowItWorks";
 import ProgrammeStatus from "@/components/sections/ProgrammeStatus";
 import Team from "@/components/sections/Team";
 import Partner from "@/components/sections/Partner";
+import Connect from "@/components/sections/Connect";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <ProgrammeStatus />
       <Team />
       <Partner />
+      <Connect />
     </>
   );
 }

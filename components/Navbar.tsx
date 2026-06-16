@@ -11,7 +11,7 @@ const links = [
   { href: "#how-it-works", label: "How it works" },
   { href: "#pilots", label: "Pilots" },
   { href: "#team", label: "Team" },
-  { href: "#partner", label: "Contact" },
+  { href: "#connect", label: "Contact" },
 ];
 
 export default function Navbar() {
