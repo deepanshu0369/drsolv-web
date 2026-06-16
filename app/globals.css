@@ -205,6 +205,60 @@
     }
   }
 
+  /* Team advisors trail — horizontal marquee of advisor cards moving
+     right to left, like a ticker. Pauses on hover or keyboard focus.
+     Falls back to a manually-scrollable row under prefers-reduced-motion. */
+  @keyframes team-trail {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .team-trail-mask {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: visible;
+    scrollbar-width: none;
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      black 6%,
+      black 94%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      black 6%,
+      black 94%,
+      transparent 100%
+    );
+  }
+  .team-trail-mask::-webkit-scrollbar {
+    display: none;
+  }
+
+  .team-trail {
+    display: flex;
+    gap: 1.25rem;
+    width: max-content;
+    animation: team-trail 55s linear infinite;
+    padding: 0.5rem 0;
+  }
+  .team-trail:hover,
+  .team-trail:focus-within {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .team-trail {
+      animation: none;
+    }
+  }
+
   /* Button press feedback */
   .press {
     transition:
